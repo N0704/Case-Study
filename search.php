@@ -109,43 +109,33 @@
                         <div>
                             <?php
                             $where = ["m.approve = 1"];
-                            
-                            if (!empty($_GET['district'])) {
-                                $district = (int)$_GET['district'];
-                                $where[] = "m.district_id = $district";
+
+                            $filters = [
+                                'district'  => 'm.district_id = %d',
+                                'category'  => 'm.category_id = %d',
+                                'price_min' => 'm.price >= %d',
+                                'price_max' => 'm.price <= %d',
+                                'area_min'  => 'm.area >= %d',
+                                'area_max'  => 'm.area <= %d',
+                            ];
+
+                            foreach ($filters as $key => $condition) {
+                                if (!empty($_GET[$key])) {
+                                    $value = (int)$_GET[$key];
+                                    $where[] = sprintf($condition, $value);
+                                }
                             }
-                            
-                            if (!empty($_GET['category'])) {
-                                $category = (int)$_GET['category'];
-                                $where[] = "m.category_id = $category";
-                            }
-                            
-                            if (!empty($_GET['price_min'])) {
-                                $price_min = (int)$_GET['price_min'];
-                                $where[] = "m.price >= $price_min";
-                            }
-                            
-                            if (!empty($_GET['price_max'])) {
-                                $price_max = (int)$_GET['price_max'];
-                                $where[] = "m.price <= $price_max";
-                            }
-                            
-                            if (!empty($_GET['area_min'])) {
-                                $area_min = (int)$_GET['area_min'];
-                                $where[] = "m.area >= $area_min";
-                            }
-                            
-                            if (!empty($_GET['area_max'])) {
-                                $area_max = (int)$_GET['area_max'];
-                                $where[] = "m.area <= $area_max";
-                            }
-                            
+
+                            // keyword xử lý riêng
                             if (!empty($_GET['keyword'])) {
                                 $keyword = mysqli_real_escape_string($conn, $_GET['keyword']);
-                                $where[] = "(m.title LIKE '%$keyword%' OR m.description LIKE '%$keyword%' OR m.address LIKE '%$keyword%')";
+                                $where[] = "(m.title LIKE '%$keyword%' 
+                                        OR m.description LIKE '%$keyword%' 
+                                        OR m.address LIKE '%$keyword%')";
                             }
-                            
+
                             $where_clause = implode(' AND ', $where);
+
                             
                             // Pagination
                             $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
