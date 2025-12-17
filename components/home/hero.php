@@ -52,6 +52,21 @@
     </div>
 </div>
 
+    <?php
+        $stats = [
+            'nha' => 0,
+            'phongtro' => 0,
+            'canho' => 0,
+            'moigioi' => 0
+        ];
+
+        $cat_query = mysqli_query($conn, "SELECT category_id, COUNT(*) as count FROM motels WHERE approve = 1 GROUP BY category_id");
+        while ($row = mysqli_fetch_assoc($cat_query)) {
+            if ($row['category_id'] == 1) $stats['phongtro'] = $row['count'];
+            if ($row['category_id'] == 2) $stats['canho'] = $row['count'];
+        }
+    ?>
+
 <div class="px-19.5 -mt-32 mb-6 relative z-20">
     <div class="bg-white rounded-xl shadow-md flex items-center">
         <div class="w-full py-2 hover:bg-gray-50 rounded-xl transition cursor-pointer">
@@ -59,37 +74,37 @@
                 <img src="assets/images/house.png" alt="Nhà nguyên căn" class="w-22 h-22 mr-4 object-cover">
                 <div>
                     <h3 class="font-bold text-gray-900 text-lg mb-1">Nhà nguyên căn</h3>
-                    <p class="text-gray-500 text-sm">74.135 nhà</p>
+                    <p class="text-gray-500 text-sm"><?= number_format($stats['nha']) ?> nhà</p>
                 </div>
             </div>
         </div>
         <div class="w-px h-14 bg-gray-200"></div>
-        <div class="w-full py-2 hover:bg-gray-50 rounded-xl transition cursor-pointer">
+        <a href="search.php?category=1" class="w-full py-2 hover:bg-gray-50 rounded-xl transition cursor-pointer">
             <div class="flex items-center px-3 py-5 mx-2">
                 <img src="assets/images/motel_room.png" alt="Phòng trọ" class="w-22 h-22 mr-4 object-cover">
                 <div>
                     <h3 class="font-bold text-gray-900 text-lg mb-1">Phòng trọ</h3>
-                    <p class="text-gray-500 text-sm">47.388 phòng trọ</p>
+                    <p class="text-gray-500 text-sm"><?= number_format($stats['phongtro']) ?> phòng trọ</p>
                 </div>
             </div>
-        </div>
+        </a>
         <div class="w-px h-14 bg-gray-200"></div>
-        <div class="w-full py-2 hover:bg-gray-50 rounded-xl transition cursor-pointer">
+        <a href="search.php?category=2" class="w-full py-2 hover:bg-gray-50 rounded-xl transition cursor-pointer">
             <div class="flex items-center px-3 py-5 mx-2">
                 <img src="assets/images/apartment.png" alt="Căn hộ mini" class="w-22 h-22 mr-4 object-cover">
                 <div>
                     <h3 class="font-bold text-gray-900 text-lg mb-1">Căn hộ mini</h3>
-                    <p class="text-gray-500 text-sm">5.201 căn hộ</p>
+                    <p class="text-gray-500 text-sm"><?= number_format($stats['canho']) ?> căn hộ</p>
                 </div>
             </div>
-        </div>
+        </a>
         <div class="w-px h-14 bg-gray-200"></div>
         <div class="w-full py-2 hover:bg-gray-50 rounded-xl transition cursor-pointer">
             <div class="flex items-center px-3 py-5 mx-2">
                 <img src="assets/images/broker.png" alt="Môi giới" class="w-22 h-22 mr-4 object-cover">
                 <div>
                     <h3 class="font-bold text-gray-900 text-lg mb-1">Môi giới</h3>
-                    <p class="text-gray-500 text-sm">857 chuyên trang</p>
+                    <p class="text-gray-500 text-sm"><?= number_format($stats['moigioi']) ?> chuyên trang</p>
                 </div>
             </div>
         </div>

@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -227,18 +228,22 @@
 
                         <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $room['user_id']): ?>
                             <!-- Owner Actions -->
-                            <div class="p-4 bg-blue-50 rounded-xl border border-blue-100 mb-6">
-                                <p class="text-sm font-semibold text-blue-800 mb-3 text-center">Đây là tin đăng của bạn</p>
+                            <div class="p-4 bg-gray-50 rounded-xl border border-gray-100 mb-6">
+                                <p class="text-sm font-semibold text-[#FF6600] mb-3 text-center">Đây là tin đăng của bạn</p>
                                 <div class="space-y-2">
                                     <a href="actions/toggle-rented.php?id=<?= $room['id'] ?>" 
-                                       class="flex items-center justify-center w-full py-2.5 rounded-lg text-sm font-medium transition <?= $room['is_rented'] ? 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50' : 'bg-green-600 text-white hover:bg-green-700 shadow-sm' ?>">
+                                       class="flex items-center justify-center w-full py-2.5 rounded-lg text-sm font-medium transition <?= $room['is_rented'] ? 'bg-gray-100 text-gray-700 border border-gray-200 hover:bg-gray-50' : 'bg-[#FF6600] text-white hover:bg-orange-600 shadow-sm' ?>">
                                         <i class="fas <?= $room['is_rented'] ? 'fa-undo' : 'fa-check-circle' ?> mr-2"></i>
                                         <?= $room['is_rented'] ? 'Đánh dấu chưa thuê' : 'Đã cho thuê' ?>
                                     </a>
-                                    <a href="edit-post.php?id=<?= $room['id'] ?>" class="flex items-center justify-center w-full bg-white text-blue-600 border border-blue-200 py-2.5 rounded-lg text-sm font-medium hover:bg-blue-50 transition">
+                                    <a href="edit-post.php?id=<?= $room['id'] ?>" class="flex items-center justify-center w-full bg-white <?= $room['is_rented'] ? 'text-orange-500' : 'text-gray-700' ?> border border-gray-200 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-50 transition">
                                         <i class="fas fa-edit mr-2"></i>Chỉnh sửa tin
                                     </a>
                                 </div>
+                            </div>
+                        <?php elseif ($room['is_rented'] == 1): ?>
+                            <div class="bg-gray-100 text-gray-500 font-bold py-3 rounded-lg text-center mb-4">
+                                Đã cho thuê
                             </div>
                         <?php else: ?>
                             <div class="flex gap-3 mb-4">
@@ -275,8 +280,6 @@
                         <div class="mt-4 flex gap-3 items-center pt-4 border-t border-gray-100">
                             <div class="w-8 h-8 rounded-full bg-gray-200 overflow-hidden shrink-0">
                                 <?php if (isset($_SESSION['user_id'])): ?>
-                                    <!-- Show current user avatar if logged in, else default -->
-                                    <!-- Note: We need to fetch current user avatar in header or session. For now using placeholder or session avatar if available -->
                                     <img src="assets/images/default-avatar.png" class="w-full h-full object-cover">
                                 <?php else: ?>
                                     <i class="fas fa-user text-gray-400 w-full h-full flex items-center justify-center"></i>
@@ -296,7 +299,7 @@
     </main>
 
     <?php include('components/footer.php'); ?>
-
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>                                
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         lucide.createIcons();

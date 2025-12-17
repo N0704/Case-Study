@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center py-3">
 
             <div class="flex items-center space-x-4 shrink-0">
-                <a href="index.html" class="bg-white rounded-full hover:bg-gray-100">
+                <a href="index.php" class="bg-white rounded-full hover:bg-gray-100">
                     <div id="logo-container"
                         class="flex items-center justify-center h-10 px-1.5">
                         <img src="assets/images/logo.png" alt="" class="h-10 mt-0.5">

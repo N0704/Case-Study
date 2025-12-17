@@ -9,12 +9,9 @@ if (!$is_admin) {
 ?>
 <aside class="w-64 bg-white min-h-screen fixed left-0 top-0 border-r border-gray-200 z-20 flex flex-col transition-all duration-300">
     <!-- Brand -->
-    <div class="h-16 flex items-center px-6 border-b border-gray-100">
-        <a href="../index.php" class="flex items-center gap-3">
-            <div class="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-sm">
-                <i class="fas fa-building"></i>
-            </div>
-            <span class="text-xl font-bold text-gray-800 tracking-tight">AdminPortal</span>
+    <div class="py-2 border-b border-gray-100">
+        <a href="../index.php" class="flex items-center justify-center">
+            <img src="../assets/images/logo.png" alt="Logo" class="h-12">
         </a>
     </div>
 
@@ -62,8 +59,4 @@ if (!$is_admin) {
         </a>
     </nav>
     
-    <!-- Footer Sidebar -->
-    <div class="p-4 border-t border-gray-100 bg-gray-50">
-        <p class="text-xs text-gray-400 text-center">© 2025 Admin Panel v1.0</p>
-    </div>
 </aside>

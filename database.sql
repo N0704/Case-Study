@@ -65,19 +65,13 @@ CREATE TABLE motels (
     user_id INT,
     category_id INT,
     district_id INT,
+    is_rented INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (category_id) REFERENCES categories(id),
     FOREIGN KEY (district_id) REFERENCES districts(id)
 );
 
-CREATE TABLE contacts (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100),
-    email VARCHAR(100),
-    message TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
 
 INSERT INTO motels
 (id, user_id, category_id, title, description, price, area, address,

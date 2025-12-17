@@ -64,74 +64,143 @@ $monthly_stats = mysqli_query($conn, "SELECT
             <?php include('components/header.php'); ?>
 
             <!-- Main Content -->
-            <main class="flex-1 p-6 mt-16 overflow-y-auto">
-                <!-- Charts -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <main class="flex-1 p-8 mt-16 overflow-y-auto bg-gray-50/50">
+                <div class="mb-8 flex justify-between items-end">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">Thống kê & Báo cáo 📊</h1>
+                        <p class="text-gray-500 mt-1">Phân tích chi tiết hoạt động của hệ thống.</p>
+                    </div>
+                    <button onclick="window.print()" class="bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition shadow-sm flex items-center text-sm font-medium">
+                        <i class="fas fa-print mr-2"></i> In báo cáo
+                    </button>
+                </div>
+
+                <!-- Charts Row 1 -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                     <!-- Posts by District -->
-                    <div class="bg-white rounded-xl shadow-md p-6">
-                        <h2 class="text-lg font-bold text-gray-900 mb-4">Tin đăng theo khu vực</h2>
-                        <canvas id="districtChart"></canvas>
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                        <h2 class="text-lg font-bold text-gray-900 mb-6 flex items-center">
+                            <span class="w-8 h-8 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center mr-3 text-sm">
+                                <i class="fas fa-map-marked-alt"></i>
+                            </span>
+                            Phân bố theo khu vực
+                        </h2>
+                        <div class="relative h-64">
+                            <canvas id="districtChart"></canvas>
+                        </div>
                     </div>
 
                     <!-- Posts by Category -->
-                    <div class="bg-white rounded-xl shadow-md p-6">
-                        <h2 class="text-lg font-bold text-gray-900 mb-4">Tin đăng theo loại</h2>
-                        <canvas id="categoryChart"></canvas>
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                        <h2 class="text-lg font-bold text-gray-900 mb-6 flex items-center">
+                            <span class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center mr-3 text-sm">
+                                <i class="fas fa-layer-group"></i>
+                            </span>
+                            Phân bố theo loại hình
+                        </h2>
+                        <div class="relative h-64 flex items-center justify-center">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Monthly Trend -->
-                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
-                    <h2 class="text-lg font-bold text-gray-900 mb-4">Xu hướng đăng tin (6 tháng gần nhất)</h2>
-                    <canvas id="monthlyChart"></canvas>
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
+                    <h2 class="text-lg font-bold text-gray-900 mb-6 flex items-center">
+                        <span class="w-8 h-8 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center mr-3 text-sm">
+                            <i class="fas fa-chart-line"></i>
+                        </span>
+                        Xu hướng đăng tin (6 tháng gần nhất)
+                    </h2>
+                    <div class="relative h-72">
+                        <canvas id="monthlyChart"></canvas>
+                    </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <!-- Top Posts -->
-                    <div class="bg-white rounded-xl shadow-md p-6">
-                        <h2 class="text-lg font-bold text-gray-900 mb-4">Top 10 tin xem nhiều nhất</h2>
-                        <div class="space-y-3">
-                            <?php $rank = 1; while ($post = mysqli_fetch_assoc($top_posts)): ?>
-                            <div class="flex items-center gap-3 pb-3 border-b border-gray-100 last:border-0">
-                                <div class="flex-shrink-0 w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
-                                    <span class="text-orange-600 font-bold text-sm"><?= $rank++ ?></span>
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col">
+                        <div class="p-6 border-b border-gray-100">
+                            <h2 class="text-lg font-bold text-gray-900 flex items-center">
+                                <span class="w-8 h-8 rounded-lg bg-yellow-100 text-yellow-600 flex items-center justify-center mr-3 text-sm">
+                                    <i class="fas fa-trophy"></i>
+                                </span>
+                                Top 10 tin xem nhiều nhất
+                            </h2>
+                        </div>
+                        <div class="p-4 flex-1">
+                            <div class="space-y-2">
+                                <?php $rank = 1; while ($post = mysqli_fetch_assoc($top_posts)): ?>
+                                <div class="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-xl transition group">
+                                    <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center font-bold text-lg
+                                        <?= $rank == 1 ? 'text-yellow-500' : ($rank == 2 ? 'text-gray-400' : ($rank == 3 ? 'text-orange-700' : 'text-gray-400 text-sm')) ?>">
+                                        <?php if ($rank <= 3): ?>
+                                            <i class="fas fa-crown"></i>
+                                        <?php else: ?>
+                                            #<?= $rank ?>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="relative w-12 h-12 rounded-lg overflow-hidden shrink-0">
+                                        <img src="../<?= htmlspecialchars($post['image'] ?? 'assets/no-image.jpg') ?>" 
+                                             alt="" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="font-bold text-gray-900 truncate text-sm group-hover:text-orange-600 transition">
+                                            <?= htmlspecialchars($post['title']) ?>
+                                        </p>
+                                        <p class="text-xs text-gray-500 mt-0.5">
+                                            <i class="fas fa-map-marker-alt mr-1"></i><?= htmlspecialchars($post['district_name']) ?>
+                                        </p>
+                                    </div>
+                                    <div class="text-right bg-gray-100 px-3 py-1 rounded-lg">
+                                        <p class="text-sm font-bold text-gray-900"><?= number_format($post['count_view']) ?></p>
+                                        <p class="text-[10px] text-gray-500 uppercase">Views</p>
+                                    </div>
                                 </div>
-                                <img src="../<?= htmlspecialchars($post['image'] ?? 'assets/no-image.jpg') ?>" 
-                                     alt="" class="w-12 h-12 rounded object-cover">
-                                <div class="flex-1 min-w-0">
-                                    <p class="font-medium text-gray-900 truncate text-sm"><?= htmlspecialchars($post['title']) ?></p>
-                                    <p class="text-xs text-gray-500"><?= htmlspecialchars($post['district_name']) ?></p>
-                                </div>
-                                <div class="text-right">
-                                    <p class="text-sm font-semibold text-gray-900"><?= number_format($post['count_view']) ?></p>
-                                    <p class="text-xs text-gray-500">lượt xem</p>
-                                </div>
+                                <?php $rank++; endwhile; ?>
                             </div>
-                            <?php endwhile; ?>
                         </div>
                     </div>
 
                     <!-- Top Users -->
-                    <div class="bg-white rounded-xl shadow-md p-6">
-                        <h2 class="text-lg font-bold text-gray-900 mb-4">Top 10 người dùng tích cực</h2>
-                        <div class="space-y-3">
-                            <?php $rank = 1; while ($user = mysqli_fetch_assoc($top_users)): ?>
-                            <div class="flex items-center gap-3 pb-3 border-b border-gray-100 last:border-0">
-                                <div class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                                    <span class="text-blue-600 font-bold text-sm"><?= $rank++ ?></span>
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col">
+                        <div class="p-6 border-b border-gray-100">
+                            <h2 class="text-lg font-bold text-gray-900 flex items-center">
+                                <span class="w-8 h-8 rounded-lg bg-green-100 text-green-600 flex items-center justify-center mr-3 text-sm">
+                                    <i class="fas fa-medal"></i>
+                                </span>
+                                Top người dùng tích cực
+                            </h2>
+                        </div>
+                        <div class="p-4 flex-1">
+                            <div class="space-y-2">
+                                <?php $rank = 1; while ($user = mysqli_fetch_assoc($top_users)): ?>
+                                <div class="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-xl transition">
+                                    <div class="flex-shrink-0 w-6 text-center font-bold text-gray-400 text-sm">
+                                        <?= $rank ?>
+                                    </div>
+                                    <div class="relative">
+                                        <img src="../<?= htmlspecialchars($user['avatar']) ?>" 
+                                             alt="" class="w-10 h-10 rounded-full object-cover border border-gray-200">
+                                        <?php if ($rank <= 3): ?>
+                                        <div class="absolute -top-1 -right-1 w-4 h-4 rounded-full border-2 border-white flex items-center justify-center text-[8px] text-white
+                                            <?= $rank == 1 ? 'bg-yellow-500' : ($rank == 2 ? 'bg-gray-400' : 'bg-orange-700') ?>">
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="font-bold text-gray-900 text-sm"><?= htmlspecialchars($user['fullname']) ?></p>
+                                        <p class="text-xs text-gray-500">@<?= htmlspecialchars($user['username']) ?></p>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            <?= $user['post_count'] ?> tin
+                                        </span>
+                                    </div>
                                 </div>
-                                <img src="../<?= htmlspecialchars($user['avatar']) ?>" 
-                                     alt="" class="w-10 h-10 rounded-full object-cover">
-                                <div class="flex-1">
-                                    <p class="font-medium text-gray-900 text-sm"><?= htmlspecialchars($user['fullname']) ?></p>
-                                    <p class="text-xs text-gray-500">@<?= htmlspecialchars($user['username']) ?></p>
-                                </div>
-                                <div class="text-right">
-                                    <p class="text-sm font-semibold text-gray-900"><?= $user['post_count'] ?></p>
-                                    <p class="text-xs text-gray-500">tin đăng</p>
-                                </div>
+                                <?php $rank++; endwhile; ?>
                             </div>
-                            <?php endwhile; ?>
                         </div>
                     </div>
                 </div>

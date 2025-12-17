@@ -67,7 +67,7 @@
                     <div class="bg-white rounded-xl border border-gray-200 overflow-hidden hover:border-orange-200 hover:shadow-md transition-all duration-300 group">
                         <div class="flex flex-col sm:flex-row">
                             <!-- Image -->
-                            <div class="sm:w-64 h-48 sm:h-auto shrink-0 relative overflow-hidden">
+                            <div class="sm:w-64 h-48 shrink-0 relative overflow-hidden">
                                 <img src="<?= htmlspecialchars($post['image'] ?? 'assets/no-image.jpg') ?>" 
                                      alt="<?= htmlspecialchars($post['title']) ?>"
                                      class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500">

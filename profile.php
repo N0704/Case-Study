@@ -181,7 +181,7 @@
                             </div>
 
                             <button type="submit" 
-                                class="w-full bg-orange-500 text-white font-semibold py-3 rounded-lg hover:bg-blue-600 transition">
+                                class="w-full bg-orange-500 text-white font-semibold py-3 rounded-lg hover:bg-orange-600 transition">
                                 <i class="fas fa-key mr-2"></i>Đổi mật khẩu
                             </button>
                         </form>

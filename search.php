@@ -149,7 +149,7 @@
                             
                             // Pagination
                             $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-                            $per_page = 12;
+                            $per_page = 9;
                             $offset = ($page - 1) * $per_page;
                             
                             // Count total
