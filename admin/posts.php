@@ -50,9 +50,14 @@ $posts = mysqli_query($conn, $query);
 
             <!-- Main Content -->
             <main class="flex-1 p-8 mt-16 overflow-y-auto bg-gray-50/50">
-                <div class="mb-8">
-                    <h1 class="text-2xl font-bold text-gray-900">Quản lý tin đăng 📰</h1>
-                    <p class="text-gray-500 mt-1">Duyệt, ẩn và quản lý tất cả tin đăng trên hệ thống.</p>
+                <div class="flex justify-between items-end mb-8">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">Quản lý tin đăng 📰</h1>
+                        <p class="text-gray-500 mt-1">Duyệt, ẩn và quản lý tất cả tin đăng trên hệ thống.</p>
+                    </div>
+                    <a href="add-post.php" class="bg-orange-600 text-white px-5 py-2.5 rounded-xl hover:bg-orange-700 transition shadow-lg shadow-orange-500/30 flex items-center font-medium">
+                        <i class="fas fa-plus mr-2"></i>Thêm tin đăng
+                    </a>
                 </div>
 
                 <?php if (isset($_SESSION['success'])): ?>
@@ -170,8 +175,12 @@ $posts = mysqli_query($conn, $query);
                                     </td>
                                     <td class="px-6 py-4 text-right">
                                         <div class="flex items-center justify-end gap-2">
+                                            <a href="edit-post.php?id=<?= $p['id'] ?>" 
+                                               class="w-8 h-8 flex items-center justify-center rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition" title="Sửa tin">
+                                                <i class="fas fa-edit text-xs"></i>
+                                            </a>
                                             <a href="../room-detail.php?id=<?= $p['id'] ?>" target="_blank" 
-                                               class="w-8 h-8 flex items-center justify-center rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition" title="Xem chi tiết">
+                                               class="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-50 text-gray-600 hover:bg-gray-100 transition" title="Xem chi tiết">
                                                 <i class="fas fa-external-link-alt text-xs"></i>
                                             </a>
                                             
